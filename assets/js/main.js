@@ -891,8 +891,12 @@
     var tag = doc.querySelector('script[src$="main.js"]');
     if (!tag || !window.fetch) return;
     box.dataset.loaded = '1';
-    var url = new URL('../legal/' + box.dataset.legalSrc + '.html', new URL(tag.getAttribute('src'), location.href));
-    fetch(url).then(function (r) { if (!r.ok) throw 0; return r.text(); })
+    var base = new URL('../legal/', new URL(tag.getAttribute('src'), location.href));
+    var file = box.dataset.legalSrc + '.html';
+    var ro = /^ro\b/i.test(doc.documentElement.lang || '');
+    function get(u) { return fetch(u).then(function (r) { if (!r.ok) throw 0; return r.text(); }); }
+    /* Romanian pages use the DeepL-translated copy in legal/ro/, falling back to the English original. */
+    (ro ? get(new URL('ro/' + file, base)).catch(function () { return get(new URL(file, base)); }) : get(new URL(file, base)))
       .then(function (h) { box.innerHTML = h; })
       .catch(function () { delete box.dataset.loaded; });
   }
