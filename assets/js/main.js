@@ -885,11 +885,23 @@
   }
 
   /* ---------- Legal dialogs, year, back-to-top ---------- */
+  function loadLegal(d) {
+    var box = d && d.querySelector('[data-legal-src]');
+    if (!box || box.dataset.loaded) return;
+    var tag = doc.querySelector('script[src$="main.js"]');
+    if (!tag || !window.fetch) return;
+    box.dataset.loaded = '1';
+    var url = new URL('../legal/' + box.dataset.legalSrc + '.html', new URL(tag.getAttribute('src'), location.href));
+    fetch(url).then(function (r) { if (!r.ok) throw 0; return r.text(); })
+      .then(function (h) { box.innerHTML = h; })
+      .catch(function () { delete box.dataset.loaded; });
+  }
   function initMisc() {
     $$('[data-legal]').forEach(function (b) {
       b.addEventListener('click', function () {
         var d = doc.getElementById('legal-' + b.dataset.legal);
         if (d && d.showModal) d.showModal();
+        loadLegal(d);
       });
     });
     $$('dialog.legal').forEach(function (d) {

@@ -1407,6 +1407,9 @@ fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
 .legal__head { display: flex; justify-content: space-between; align-items: start; gap: 1rem; }
 .legal h2 { font-family: var(--f-display); font-weight: 500; font-size: 2rem; color: var(--text); line-height: 1.1; }
 .legal p { color: var(--muted); font-size: 0.95rem; }
+.legal__body { display: grid; gap: 0.9rem; }
+.legal h3 { font-family: var(--f-display); font-weight: 500; font-size: 0.95rem; letter-spacing: 0.02em; color: var(--gold-2); margin-top: 0.8rem; }
+.legal ul { display: grid; gap: 0.4rem; padding-left: 1.2rem; list-style: disc; color: var(--muted); font-size: 0.95rem; }
 .legal__close { display: grid; place-items: center; width: 40px; height: 40px; flex: none; border: 1px solid rgba(212, 175, 55, 0.35); border-radius: var(--r-sm); color: var(--gold-2); transition: background .3s; }
 .legal__close:hover { background: rgba(212, 175, 55, 0.1); }
 
