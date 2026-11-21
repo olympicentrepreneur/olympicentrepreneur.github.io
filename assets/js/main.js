@@ -34,9 +34,9 @@
       logChart: 'Weekly performance summary prepared',
       logChGoogle: 'Google Ads', logChMeta: 'Meta Ads', logChAll: 'All channels',
       agoNow: 'just now', ago12m: '12 min ago', ago1h: '1 h ago', ago3h: '3 h ago',
-      hintSimple: 'One-time project price · <b>€300</b>',
-      hintAdvanced: 'One-time project price · <b>€500</b> · Our most popular package',
-      hintPremium: 'One-time project price · <b>€1,000</b> · Our flagship package',
+      hintSimple: 'One-time project price · <b>€477</b> without VAT',
+      hintAdvanced: 'One-time project price · <b>€977</b> without VAT · Our most popular package',
+      hintPremium: 'Request a quote · Our flagship package',
       hintGoogle: 'Monthly management · <b>€290/month</b> without VAT',
       hintMeta: 'Monthly management · <b>€290/month</b> without VAT',
       hintWebsiteAds: 'A website package plus Google and/or Meta Ads management',
@@ -47,7 +47,7 @@
       errPhone: 'Please enter a valid phone number.',
       errService: 'Please choose a service.',
       errMessage: 'Please tell us a little more (at least 20 characters).',
-      builderEmpty: 'Select a website package or advertising service.', exVat: 'without VAT',
+      builderEmpty: 'Select a website package or advertising service.', exVat: 'without VAT', quote: 'Request a quote',
       sending: 'Sending…', sendRequest: 'Send Project Request',
       sendFail: 'Sorry — your request could not be sent. Please try again in a moment, or email us at info@olympicentrepreneur.com.',
       subjectPrefix: 'New project request: ',
@@ -67,9 +67,9 @@
       logChart: 'S-a întocmit un rezumat săptămânal al performanțelor',
       logChGoogle: 'Google Ads', logChMeta: 'Meta Ads', logChAll: 'Toate canalele',
       agoNow: 'chiar acum', ago12m: 'acum 12 minute', ago1h: 'acum 1 oră', ago3h: 'acum 3 ore',
-      hintSimple: 'Preț unic pentru proiect · <b>300 €</b>',
-      hintAdvanced: 'Preț unic pentru proiect · <b>500 €</b> · Cel mai popular pachet al nostru',
-      hintPremium: 'Preț unic pentru proiect · <b>1.000 €</b> · Pachetul nostru de referință',
+      hintSimple: 'Preț unic pentru proiect · <b>477 €</b> fără TVA',
+      hintAdvanced: 'Preț unic pentru proiect · <b>977 €</b> fără TVA · Cel mai popular pachet al nostru',
+      hintPremium: 'Solicitați o ofertă · Pachetul nostru de referință',
       hintGoogle: 'Administrare lunară · <b>290 €/lună</b> fără TVA',
       hintMeta: 'Administrare lunară · <b>290 €/lună</b> fără TVA',
       hintWebsiteAds: 'Un pachet de servicii pentru site-uri web, plus gestionarea campaniilor publicitare pe Google și/sau Meta Ads',
@@ -80,7 +80,7 @@
       errPhone: 'Vă rugăm să introduceți un număr de telefon valid.',
       errService: 'Vă rugăm să alegeți un serviciu.',
       errMessage: 'Vă rugăm să ne oferiți mai multe detalii (cel puțin 20 de caractere).',
-      builderEmpty: 'Alegeți un pachet de site web sau un serviciu de publicitate.', exVat: 'fără TVA',
+      builderEmpty: 'Alegeți un pachet de site web sau un serviciu de publicitate.', exVat: 'fără TVA', quote: 'Solicitați o ofertă',
       sending: 'Se trimite…', sendRequest: 'Trimite cerere de proiect',
       sendFail: 'Ne pare rău — solicitarea dumneavoastră nu a putut fi trimisă. Vă rugăm să încercați din nou peste câteva momente sau să ne trimiteți un e-mail la adresa info@olympicentrepreneur.com.',
       subjectPrefix: 'Solicitare de proiect nou: ',
@@ -738,19 +738,19 @@
     function update() {
       var web = $('input[name="web"]:checked', form);
       var ads = $$('input[name="ads"]:checked', form);
-      var oneTime = web ? +web.value : 0;
+      var oneTime = web ? +web.value : 0; var isQuote = !!(web && web.hasAttribute('data-quote')); var hasWeb = !!(web && (oneTime || isQuote));
       var monthly = ads.reduce(function (s, a) { return s + +a.value; }, 0);
       tweenCount(one, prevOne, oneTime, 700); tweenCount(mon, prevMon, monthly, 700);
       prevOne = oneTime; prevMon = monthly;
       var items = [], planText = [];
-      if (web && oneTime) { items.push([web.dataset.label, '€' + oneTime.toLocaleString('en-US') + ' one-time']); planText.push(web.dataset.label + ' (€' + oneTime.toLocaleString('en-US') + ')'); }
+      if (hasWeb) { var wp = isQuote ? STR.quote : '€' + oneTime.toLocaleString('en-US') + ' ' + STR.exVat; items.push([web.dataset.label, wp]); planText.push(web.dataset.label + ' (' + wp + ')'); }
       ads.forEach(function (a) { items.push([a.dataset.label, '€' + a.value + '/month ' + STR.exVat]); planText.push(a.dataset.label + ' (€' + a.value + '/month ' + STR.exVat + ')'); });
       list.innerHTML = items.length
         ? items.map(function (it) { return '<li><span>' + it[0] + '</span><span>' + it[1] + '</span></li>'; }).join('')
         : '<li class="empty">' + STR.builderEmpty + '</li>';
       var service = 'custom';
-      if (oneTime && ads.length) service = 'website-ads';
-      else if (oneTime) service = web.dataset.key;
+      if (hasWeb && ads.length) service = 'website-ads';
+      else if (hasWeb) service = web.dataset.key;
       else if (ads.length === 1) service = ads[0].dataset.key;
       var q = '?service=' + encodeURIComponent(service) + (planText.length ? '&plan=' + encodeURIComponent(planText.join(' + ')) : '');
       cta.setAttribute('href', 'contact.html' + q);

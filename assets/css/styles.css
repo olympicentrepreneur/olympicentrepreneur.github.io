@@ -1632,3 +1632,6 @@ fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
   .fx-particles { display: none; }
   .hero__title .line > span { transform: none; }
 }
+
+/* "Request a quote" shown in place of a price */
+.tier__price .amt.amt--quote { font-size: clamp(1.9rem, 1.5rem + 1.3vw, 2.6rem); letter-spacing: -0.03em; line-height: 1.1; padding-block: 0.4rem; }
