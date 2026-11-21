@@ -37,8 +37,8 @@
       hintSimple: 'One-time project price · <b>€300</b>',
       hintAdvanced: 'One-time project price · <b>€500</b> · Our most popular package',
       hintPremium: 'One-time project price · <b>€1,000</b> · Our flagship package',
-      hintGoogle: 'Monthly management · <b>€300/month</b>',
-      hintMeta: 'Monthly management · <b>€300/month</b>',
+      hintGoogle: 'Monthly management · <b>€290/month</b> without VAT',
+      hintMeta: 'Monthly management · <b>€290/month</b> without VAT',
       hintWebsiteAds: 'A website package plus Google and/or Meta Ads management',
       hintCustom: 'Tell us what you need — we\'ll discuss scope together',
       interestedPrefix: 'I\'m interested in: ',
@@ -47,7 +47,7 @@
       errPhone: 'Please enter a valid phone number.',
       errService: 'Please choose a service.',
       errMessage: 'Please tell us a little more (at least 20 characters).',
-      builderEmpty: 'Select a website package or advertising service.',
+      builderEmpty: 'Select a website package or advertising service.', exVat: 'without VAT',
       sending: 'Sending…', sendRequest: 'Send Project Request',
       sendFail: 'Sorry — your request could not be sent. Please try again in a moment, or email us at info@olympicentrepreneur.com.',
       subjectPrefix: 'New project request: ',
@@ -70,8 +70,8 @@
       hintSimple: 'Preț unic pentru proiect · <b>300 €</b>',
       hintAdvanced: 'Preț unic pentru proiect · <b>500 €</b> · Cel mai popular pachet al nostru',
       hintPremium: 'Preț unic pentru proiect · <b>1.000 €</b> · Pachetul nostru de referință',
-      hintGoogle: 'Administrare lunară · <b>300 €/lună</b>',
-      hintMeta: 'Administrare lunară · <b>300 €/lună</b>',
+      hintGoogle: 'Administrare lunară · <b>290 €/lună</b> fără TVA',
+      hintMeta: 'Administrare lunară · <b>290 €/lună</b> fără TVA',
       hintWebsiteAds: 'Un pachet de servicii pentru site-uri web, plus gestionarea campaniilor publicitare pe Google și/sau Meta Ads',
       hintCustom: 'Spuneți-ne de ce aveți nevoie — vom discuta împreună despre obiectul proiectului',
       interestedPrefix: 'Mă interesează: ',
@@ -80,7 +80,7 @@
       errPhone: 'Vă rugăm să introduceți un număr de telefon valid.',
       errService: 'Vă rugăm să alegeți un serviciu.',
       errMessage: 'Vă rugăm să ne oferiți mai multe detalii (cel puțin 20 de caractere).',
-      builderEmpty: 'Alegeți un pachet de site web sau un serviciu de publicitate.',
+      builderEmpty: 'Alegeți un pachet de site web sau un serviciu de publicitate.', exVat: 'fără TVA',
       sending: 'Se trimite…', sendRequest: 'Trimite cerere de proiect',
       sendFail: 'Ne pare rău — solicitarea dumneavoastră nu a putut fi trimisă. Vă rugăm să încercați din nou peste câteva momente sau să ne trimiteți un e-mail la adresa info@olympicentrepreneur.com.',
       subjectPrefix: 'Solicitare de proiect nou: ',
@@ -744,7 +744,7 @@
       prevOne = oneTime; prevMon = monthly;
       var items = [], planText = [];
       if (web && oneTime) { items.push([web.dataset.label, '€' + oneTime.toLocaleString('en-US') + ' one-time']); planText.push(web.dataset.label + ' (€' + oneTime.toLocaleString('en-US') + ')'); }
-      ads.forEach(function (a) { items.push([a.dataset.label, '€' + a.value + '/month']); planText.push(a.dataset.label + ' (€' + a.value + '/month)'); });
+      ads.forEach(function (a) { items.push([a.dataset.label, '€' + a.value + '/month ' + STR.exVat]); planText.push(a.dataset.label + ' (€' + a.value + '/month ' + STR.exVat + ')'); });
       list.innerHTML = items.length
         ? items.map(function (it) { return '<li><span>' + it[0] + '</span><span>' + it[1] + '</span></li>'; }).join('')
         : '<li class="empty">' + STR.builderEmpty + '</li>';
